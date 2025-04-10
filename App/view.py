@@ -62,11 +62,7 @@ def print_menu():
 def option_two(cont):
     print("\nCargando información de transporte de singapur ....")
     logic.load_services(cont, servicefile)
-    numedges = logic.total_connections(cont)
-    numvertex = logic.total_stops(cont)
-    print('Numero de vertices: ' + str(numvertex))
-    print('Numero de arcos: ' + str(numedges))
-    print('El limite de recursion actual: ' + str(sys.getrecursionlimit()))
+ 
 
 
 """
