@@ -9,7 +9,7 @@ def setup_tests():
     some_heap = pq.new_heap()
 
     for i in range(1, 14, 2):
-        lt.add_last(some_heap["elements"], {"key": i, "value": i})
+        lt.add_last(some_heap["elements"], {"priority": i, "value": i})
         some_heap["size"] += 1
 
     return empty_heap, some_heap
@@ -37,17 +37,17 @@ def test_insert():
 
     pq.insert(empty_heap, 1, 1)
     assert empty_heap["size"] is not None
-    assert empty_heap["elements"] is None
+    assert empty_heap["elements"] is not None
     assert empty_heap["cmp_function"] is not None
 
     pq.insert(some_heap, 2, 2)
     assert some_heap["size"] is not None
-    assert some_heap["elements"] is None
+    assert some_heap["elements"] is not None
     assert some_heap["cmp_function"] is not None
 
     pq.insert(some_heap, 4, 4)
     assert some_heap["size"] is not None
-    assert some_heap["elements"] is None
+    assert some_heap["elements"] is not None
     assert some_heap["cmp_function"] is not None
 
 

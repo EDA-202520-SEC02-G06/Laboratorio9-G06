@@ -28,39 +28,15 @@ import csv
 import time
 import os
 
+# TODO Realice la importación de priority queue
+# TODO Realice la importación de ArrayList (al) o SingleLinked (sl) como estructura de datos auxiliar para sus requerimientos
+# TODO Realice la importación de LinearProbing (lp) o Separate Chaining (sp) como estructura de datos auxiliar para sus requerimientos
+
+
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
 
 
-# ___________________________________________________
-#  Importaciones
-# ___________________________________________________
-
-from DataStructures.Graph import adj_list_graph as gr
-from DataStructures.Map import map_linear_probing as m
-from DataStructures.List import single_linked_list as lt
-from DataStructures.Priority_queue  import priority_queue as pq
-"""
-El controlador se encarga de mediar entre la vista y el modelo.
-Existen algunas operaciones en las que se necesita invocar
-el modelo varias veces o integrar varias de las respuestas
-del modelo en una sola respuesta.  Esta responsabilidad
-recae sobre el controlador.
-"""
-
-# ___________________________________________________
-#  Inicializacion del catalogo
-# ___________________________________________________
-
-
-def init():
-    """
-    Llama la funcion de inicializacion  del modelo.
-    """
-    # analyzer es utilizado para interactuar con el modelo
-    analyzer = new_analyzer()
-    return analyzer
-
-def new_analyzer():
+def new_logic():
     """ Inicializa el analizador
 
    stops: Tabla de hash para guardar los vertices del grafo
@@ -69,58 +45,78 @@ def new_analyzer():
    paths: Estructura que almancena los caminos de costo minimo desde un
            vertice determinado a todos los otros vértices del grafo
     """
-    try:
-        analyzer = {
-            'stops': None,
-            'connections': None,
-            'components': None,
-            'paths': None
-        }
+    analyzer = {
+        'stops': None,
+        'routes': None,
+        'routes_pq': None
+    }
+    
+    analyzer['stops'] = None #TODO completar la creación de la lista
+    analyzer['routes'] = None #TODO completar la creación del mapa
+    analyzer['routes_pq'] = None #TODO completar la creación de la cola de prioridad
 
-     
-
-        # ___________________________________________________
-        #  TODO crear la cola de prioriad y cree las funciones 
-        # necesarias para la carga de datos
-        # ___________________________________________________
-
-        return analyzer
-    except Exception as exp:
-        return exp
+    return analyzer
 
 # ___________________________________________________
-#  TODO Funciones para la carga de datos y almacenamiento
+#  Funciones para la carga de datos y almacenamiento
 #  de datos en los modelos
 # ___________________________________________________
 
 
-def load_services(file):
-     
-
-
-
-
-    
-
-#Funciones para la medición de tiempos
-
-def get_time():
+def load_data(analyzer, file):
     """
-    devuelve el instante tiempo de procesamiento en milisegundos
+    Carga los datos de los archivos CSV en el modelo
     """
-    return float(time.perf_counter()*1000)
+    file = data_dir + file
+    input_file = csv.DictReader(open(file, encoding="utf-8"),
+                                delimiter=",")
+    for stop in input_file:
+        add_stop(analyzer, stop)
+    return analyzer
 
-def delta_time(end, start):
+
+def add_stop(analyzer, stop):
     """
-    devuelve la diferencia entre tiempos de procesamiento muestreados
+    Adiciona una parada al analizador
     """
-    elapsed = float(end - start)
-    return elapsed
+    al.add_last(analyzer['stops'], stop)
+    # TODO Adicionar la parada al mapa de rutas
+    # TODO Adicionar nuevo elemento a la cola de prioridad
+    return analyzer
 
 
+# ___________________________________________________
+#  Funciones de consulta
+# ___________________________________________________
 
+def stops_size(analyzer):
+    """
+    Número de paradas de bus
+    """
+    return al.size(analyzer['stops'])
 
+def routes_size(analyzer):
+    """
+    Número de rutas de bus
+    """
+    return m.size(analyzer['routes'])
 
+def pq_size(analyzer):
+    """
+    Número de elementos en la cola de prioridad
+    """
+    return pq.size(analyzer['routes_pq'])
 
+def get_routes(analyzer, num_routes):
+    """
+    Retorna las n rutas de bus con mayor prioridad
+    """
+    # TODO completar la función
+    pass  
 
-
+def get_stops_by_route(analyzer, pos):
+    """
+    Retorna las paradas de la ruta con la n-esima prioridad
+    """
+    # TODO completar la función
+    pass

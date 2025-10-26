@@ -1,33 +1,6 @@
-"""
- * Copyright 2020, Departamento de sistemas y Computación
- * Universidad de Los Andes
- *
- *
- * Desarrolado para el curso ISIS1225 - Estructuras de Datos y Algoritmos
- *
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Contribución de:
- *
- * Dario Correal
- *
- """
-
-
 import sys
-import threading
-from App import logic
+import App.logic as logic
+# TODO Realice la importación de lista como estructura de datos auxiliar para la presentación de los resultados
 
 """
 La vista se encarga de la interacción con el usuario.
@@ -35,19 +8,21 @@ Presenta el menu de opciones  y  por cada seleccion
 hace la solicitud al controlador para ejecutar la
 operación seleccionada.
 """
+#  -------------------------------------------------------------
+# Funciones para la carga de datos
+#  -------------------------------------------------------------
 
-# ___________________________________________________
-#  Variables
-# ___________________________________________________
+def new_logic():
+    """
+    Se crea una instancia del controlador
+    """
+    control = logic.new_logic()
+    return control
 
-
-servicefile = 'bus_routes_14000.csv'
-initialStation = None
 
 # ___________________________________________________
 #  Menu principal
 # ___________________________________________________
-
 
 def print_menu():
     print("\n")
@@ -55,42 +30,45 @@ def print_menu():
     print("Bienvenido")
     print("1- Inicializar Analizador")
     print("2- Cargar información de buses de singapur")
+    print("3- Consultar las n rutas de bus con mayor prioridad")
+    print("4- Consultar las paradas de la ruta con la n-esima prioridad")
     print("0- Salir")
     print("*******************************************")
-
-
-def option_two(cont):
-    print("\nCargando información de transporte de singapur ....")
-    logic.load_services(cont, servicefile)
- 
-
 
 """
 Menu principal
 """
 
-
 def main():
     working = True
+    routesfile = 'bus_routes_14000.csv'
     while working:
         print_menu()
         inputs = input('Seleccione una opción para continuar\n>')
 
         if int(inputs[0]) == 1:
             print("\nInicializando....")
-            # cont es el controlador que se usará de acá en adelante
-            cont = logic.init()
-
+            control = new_logic()
         elif int(inputs[0]) == 2:
-            option_two(cont)
+            print("\nCargando información de crimenes ....")
+            logic.load_data(control, routesfile)
+            print('Registros cargados: ' + str(logic.stops_size(control)))
+            print('Rutas cargadas: ' + str(logic.routes_size(control)))
+            print('Elementos en la cola de prioridad: ' + str(logic.pq_size(control)))
+        elif int(inputs[0]) == 3:
+            print("\nBuscando rutas con mayor prioridad: ")
+            numRoutes = int(input("Cantidad de rutas a consultar: "))
+            total, routes = logic.get_routes(control, numRoutes)
+            print("\nTotal de rutas: " + str(total))
+            for route in range(0, al.size(routes)):
+                print("Ruta: " + al.get_element(routes, route))
+        elif int(inputs[0]) == 4:
+            print("\nBuscando las paradas de la n-esima ruta con mayor prioridad: ")
+            pos = int(input("Valor de n: "))
+            route, stops = logic.get_stops_by_route(control, pos)
+            print(f"\nRuta con la {pos}-esima prioridad: " + str(route))
+            for stop in range(0, al.size(stops)):
+                print("Parada: " + al.get_element(stops, stop))
         else:
-            working = False
-            print("Saliendo...")
+            sys.exit(0)
     sys.exit(0)
-
-
-if __name__ == "__main__":
-    threading.stack_size(67108864)  # 64MB stack
-    sys.setrecursionlimit(2 ** 20)
-    thread = threading.Thread(target=main)
-    thread.start()
