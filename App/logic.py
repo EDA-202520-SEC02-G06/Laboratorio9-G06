@@ -30,7 +30,6 @@ import os
 
 # TODO Realice la importación de priority queue
 # TODO Realice la importación de ArrayList (al) o SingleLinked (sl) como estructura de datos auxiliar para sus requerimientos
-# TODO Realice la importación de LinearProbing (lp) o Separate Chaining (sp) como estructura de datos auxiliar para sus requerimientos
 
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
@@ -47,12 +46,10 @@ def new_logic():
     """
     analyzer = {
         'stops': None,
-        'routes': None,
         'routes_pq': None
     }
     
     analyzer['stops'] = None #TODO completar la creación de la lista
-    analyzer['routes'] = None #TODO completar la creación del mapa
     analyzer['routes_pq'] = None #TODO completar la creación de la cola de prioridad
 
     return analyzer
@@ -80,7 +77,6 @@ def add_stop(analyzer, stop):
     Adiciona una parada al analizador
     """
     al.add_last(analyzer['stops'], stop)
-    # TODO Adicionar la parada al mapa de rutas
     # TODO Adicionar nuevo elemento a la cola de prioridad
     return analyzer
 
@@ -91,32 +87,25 @@ def add_stop(analyzer, stop):
 
 def stops_size(analyzer):
     """
-    Número de paradas de bus
+    Obtener el número de paradas de bus
     """
     return al.size(analyzer['stops'])
 
-def routes_size(analyzer):
-    """
-    Número de rutas de bus
-    """
-    return m.size(analyzer['routes'])
-
 def pq_size(analyzer):
     """
-    Número de elementos en la cola de prioridad
+    Obtener el número de elementos en la cola de prioridad
     """
     return pq.size(analyzer['routes_pq'])
 
-def get_routes(analyzer, num_routes):
+def pq_first(analyzer):
     """
-    Retorna las n rutas de bus con mayor prioridad
+    Obtener el primer elemento en la cola de prioridad
     """
-    # TODO completar la función
-    pass  
+    return pq.get_first_priority(analyzer['routes_pq'])
 
-def get_stops_by_route(analyzer, pos):
+def get_next_route(analyzer):
     """
-    Retorna las paradas de la ruta con la n-esima prioridad
+    Retorna la ruta con mayor prioridad
     """
     # TODO completar la función
-    pass
+    pass 

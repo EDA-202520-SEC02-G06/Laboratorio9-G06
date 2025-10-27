@@ -29,9 +29,8 @@ def print_menu():
     print("*******************************************")
     print("Bienvenido")
     print("1- Inicializar Analizador")
-    print("2- Cargar información de buses de singapur")
-    print("3- Consultar las n rutas de bus con mayor prioridad")
-    print("4- Consultar las paradas de la ruta con la n-esima prioridad")
+    print("2- Cargar información de buses de singapur y crear MinPQ")
+    print("3- Atender la siguiente ruta con mayor prioridad")
     print("0- Salir")
     print("*******************************************")
 
@@ -53,22 +52,15 @@ def main():
             print("\nCargando información de crimenes ....")
             logic.load_data(control, routesfile)
             print('Registros cargados: ' + str(logic.stops_size(control)))
-            print('Rutas cargadas: ' + str(logic.routes_size(control)))
             print('Elementos en la cola de prioridad: ' + str(logic.pq_size(control)))
+            print('Ruta con mayor prioridad: ' + str(logic.pq_first(control)))
         elif int(inputs[0]) == 3:
-            print("\nBuscando rutas con mayor prioridad: ")
-            numRoutes = int(input("Cantidad de rutas a consultar: "))
-            total, routes = logic.get_routes(control, numRoutes)
-            print("\nTotal de rutas: " + str(total))
-            for route in range(0, al.size(routes)):
-                print("Ruta: " + al.get_element(routes, route))
-        elif int(inputs[0]) == 4:
-            print("\nBuscando las paradas de la n-esima ruta con mayor prioridad: ")
-            pos = int(input("Valor de n: "))
-            route, stops = logic.get_stops_by_route(control, pos)
-            print(f"\nRuta con la {pos}-esima prioridad: " + str(route))
-            for stop in range(0, al.size(stops)):
-                print("Parada: " + al.get_element(stops, stop))
+            print("\nObteniendo la ruta con mayor prioridad: ")
+            route = logic.get_next_route(control)
+            if route:
+                print('Ruta ID: ' + str(route['route_id']) + ', Prioridad: ' + str(route['priority']))
+            else:
+                print('No hay rutas en la cola de prioridad.')
         else:
             sys.exit(0)
     sys.exit(0)
