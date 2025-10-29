@@ -49,7 +49,7 @@ def main():
             print("\nInicializando....")
             control = new_logic()
         elif int(inputs[0]) == 2:
-            print("\nCargando información de crimenes ....")
+            print("\nCargando información de rutas de buses....")
             logic.load_data(control, routesfile)
             print('Registros cargados: ' + str(logic.stops_size(control)))
             print('Elementos en la cola de prioridad: ' + str(logic.pq_size(control)))
@@ -58,7 +58,8 @@ def main():
             print("\nObteniendo la ruta con mayor prioridad: ")
             route = logic.get_next_route(control)
             if route:
-                print('Ruta ID: ' + str(route['route_id']) + ', Prioridad: ' + str(route['priority']))
+                print('Ruta ID: ' + str(route['route_id']) + ', Dirección: ' + str(route['direction']) + ', Prioridad: ' + str(route['priority']))
+                print('Elementos restantes en la cola de prioridad: ' + str(logic.pq_size(control)))
             else:
                 print('No hay rutas en la cola de prioridad.')
         else:
